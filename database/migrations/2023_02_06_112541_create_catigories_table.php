@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('catigories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('ProductId');
-            $table->foreign('ProductId')->references('id')->on('products');
+           
         });
     }
 

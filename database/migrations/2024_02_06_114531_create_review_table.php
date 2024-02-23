@@ -20,8 +20,8 @@ return new class extends Migration
             $table->integer('rating');
             $table->unsignedBigInteger('productsId');
             $table->unsignedBigInteger('custommerId');
-            $table->foreign('productsId')->references('id')->on('products');
-            $table->foreign('custommerId')->references('id')->on('custommers');
+            $table->foreign('productsId')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('custommerId')->references('id')->on('custommers')->onDelete('cascade');
         });
     }
 

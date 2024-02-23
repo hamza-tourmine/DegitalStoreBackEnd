@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('paymentStatus',['payed','paying']);
             $table->enum('ShippingStatus',['shipped','shipping']);
             $table->unsignedBigInteger('CustommerId');
-            $table->foreign('CustommerId')->references('id')->on('custommers');
+            $table->foreign('CustommerId')->references('id')->on('custommers')->onDelete('cascade');
         });
     }
 

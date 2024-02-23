@@ -4,19 +4,65 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\product;
+use App\Http\Resources\ReviewResource;
+use App\Models\Categorie;
+use App\Models\productImage;
+use Illuminate\Support\Facades\DB;
 
 class productController extends Controller
 {
-    
+
 
     public function index(){
-        return response()->json(['data'=>[product::all()], 'status'=> 200]);
+        // $products = DB::table('products')
+        //         ->select('products.*','catigories.*','product_image.*')
+        //         ->rightJoin('catigories', 'products.catigorieid', '=', 'catigories.id')
+        //         ->rightJoin('product_image', 'products.id', '=', 'product_image.Product_id')
+        //         ->get();
+
+    //  $products = Product::with('ca', 'images')->get();
+    //  $products = DB::table('products')
+    // ->select('products.*', 'catigories.name as category_name', 'product_image.image as image_url')
+    // ->leftJoin('catigories', 'products.catigorieid', '=', 'catigories.id')
+    // ->leftJoin('product_image', 'products.id', '=', 'product_image.product_id')
+    // ->get();
+
+
+
+        $products = Product::with( 'images','category','review')->get();
+        //  return ReviewResource::collection($products);
+        foreach ($products as $product) {
+            unset($product->category_id);
+            foreach ($product->review as $review) {
+                // Remove unwanted fields directly:
+                unset($review->productsId);
+                unset($review->custommerId);
+            }
+            foreach($product->images as $image){
+                unset($image->product_id);
+            }
+        }
+        return response()->json($products, 200);
+        // return response()->json(['data' => $products, 'status' => 200]);
     }
+
+
+
+
     // how by id
     public function show(Request $request){
-        $data = product::find($request->id);
-        if($data){
-            return response()->json([['data'=>$data , 'status'=>200]]);
+        $products = product::find($request->id);
+
+        //  return ReviewResource::collection($products);
+        //
+        if($products){
+            $product =$products->load(['images','category','review']);
+
+
+
+
+
+            return response()->json([['data'=>$product , 'status'=>200]]);
         }else{
             return response()->json(["message" => 'the product you are looking for does not existe', 'status' => 404]);
         }

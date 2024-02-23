@@ -19,7 +19,7 @@ class producttable extends Seeder
                  'price'=>123.23,
                  'digitalFilePath'=>$faker->name,
                  'stockQuantity'=>rand(10,100),
-                 'image'=>$faker->image,
+                 'catigorieid'=>$faker->numberBetween(1,5),
          ]);
         }
 

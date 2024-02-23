@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('quantity');
             $table->unsignedBigInteger('ProductsId');
             $table->unsignedBigInteger('OrderId');
-            $table->foreign('ProductsId')->references('id')->on('products');
-            $table->foreign('OrderId')->references('id')->on('orders');
+            $table->foreign('ProductsId')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('OrderId')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 
